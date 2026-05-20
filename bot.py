@@ -13,7 +13,7 @@ GEMINI_API_KEY = os.environ["GEMINI_API_KEY"]
 
 # Gemini 설정
 genai.configure(api_key=GEMINI_API_KEY)
-model = genai.GenerativeModel("gemini-2.0-flash")
+model = genai.GenerativeModel("gemini-3.0-flash")
 
 # 편지 설정 파일
 LETTERS_FILE = "pending_letters.json"
