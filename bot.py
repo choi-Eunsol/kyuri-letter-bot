@@ -66,7 +66,10 @@ async def generate_letter(character: str, custom_situation: str = "") -> str:
 - 편지 형식 유지 (문단 나누기)
 - 감정을 직접 말하기보다 행동이나 상황으로 드러내기
 """
-    response = model.generate_content(prompt)
+    response = model.generate_content(
+    prompt,
+    request_options={"timeout": 120}
+)
     return response.text
 
 # ── 텔레그램 메시지 전송 ──────────────────────────────────────────
