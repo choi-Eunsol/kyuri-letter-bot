@@ -1,0 +1,56 @@
+name: 편지 봇
+
+on:
+  schedule:
+    # 매 시간마다 편지 도착 확인
+    - cron: '0 * * * *'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: '실행 모드 (send=편지 요청 / check=도착 확인)'
+        required: true
+        default: 'check'
+        type: choice
+        options:
+          - check
+          - send
+      character:
+        description: '편지 보내는 캐릭터 (베지터 / 트랭크스 / 피콜로)'
+        required: false
+        default: '베지터'
+      custom_situation:
+        description: '추가 상황 설명 (선택사항)'
+        required: false
+        default: ''
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 코드 가져오기
+        uses: actions/checkout@v4
+
+      - name: Python 설정
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 패키지 설치
+        run: pip install google-generativeai httpx
+
+      - name: 봇 실행
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          BOT_MODE: ${{ github.event.inputs.mode || 'check' }}
+          CHARACTER: ${{ github.event.inputs.character || '베지터' }}
+          CUSTOM_SITUATION: ${{ github.event.inputs.custom_situation || '' }}
+        run: python bot.py
+
+      - name: 편지 파일 저장
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: '편지 상태 업데이트'
+          file_pattern: 'pending_letters.json'
