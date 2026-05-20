@@ -26,6 +26,8 @@ on:
 jobs:
   run-bot:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: 코드 가져오기
