@@ -12,7 +12,7 @@ TELEGRAM_CHAT_ID = os.environ["TELEGRAM_CHAT_ID"]
 GEMINI_API_KEY = os.environ["GEMINI_API_KEY"]
 
 # Gemini 설정
-genai.configure(api_key=GEMINI_API_KEY)
+genai.configure(api_key=GEMINI_API_KEY, transport='rest')
 model = genai.GenerativeModel("gemini-3-flash-preview")
 
 # 편지 설정 파일
