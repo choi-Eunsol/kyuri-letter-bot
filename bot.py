@@ -127,7 +127,7 @@ def generate_letter(character: str, reply_to: str = "", custom_situation: str = 
         model="gemini-3-flash-preview",
         contents=prompt,
         config=types.GenerateContentConfig(
-            max_output_tokens=1000,
+            max_output_tokens=2000,
             temperature=0.9,
         )
     )
